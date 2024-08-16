@@ -15,7 +15,7 @@ Quartz v4 features a from-the-ground rewrite focusing on end-user extensibility 
 git clone --recursive git@github.com:fourteendp/quartz.git
 cd quartz
 npm install
-npm run quartz --serve
+npm run quartz build --serve
 ```
 
 ## Sponsors
