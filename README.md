@@ -9,6 +9,15 @@ Quartz v4 features a from-the-ground rewrite focusing on end-user extensibility 
 
 [Join the Discord Community](https://discord.gg/cRFFHYye7t)
 
+## Start
+
+```sh
+git clone --recursive git@github.com:fourteendp/quartz.git
+cd quartz
+npm install
+npm run quartz --serve
+```
+
 ## Sponsors
 
 <p align="center">
