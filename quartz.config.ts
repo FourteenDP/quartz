@@ -16,7 +16,7 @@ const config: QuartzConfig = {
     },
     locale: "zh-CN",
     baseUrl: "db.fourteen.top",
-    ignorePatterns: ["private", "lib", ".obsidian"],
+    ignorePatterns: ["private", "lib", ".obsidian", "README.md"],
     defaultDateType: "created",
     theme: {
       fontOrigin: "googleFonts",
