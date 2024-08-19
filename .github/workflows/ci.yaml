@@ -71,7 +71,7 @@ jobs:
           git_commit_sha: ${{ github.sha }}
           git_tag_prefix: "v"
 
-  # 将./public目录下的文件推送到gh-pages分支,不需要手动创建gh-pages分支
+  # 将./public目录下的文件推送到gh-pages分支,忽略 .obsidian 子仓库
   deploy:
     if: ${{ github.repository == 'fourteendp/quartz' && github.ref == 'refs/heads/v4' }}
     runs-on: ubuntu-latest
@@ -87,12 +87,16 @@ jobs:
           node-version: 20
       - name: Get package version
         run: node -p -e '`PACKAGE_VERSION=${require("./package.json").version}`' >> $GITHUB_ENV
-      - name: Build
-        run: npm run build
-      - name: Deploy
+      - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
           publish_branch: gh-pages
-          cname: quartz.fourteendp.com
+          keep_files: true
+          user_name: ${{ github.actor }}
+          user_email: ${{ github.actor }}@users.noreply.github.com
+          commit_message: ${{ env.PACKAGE_VERSION }}
+          allow_empty_commit: true
+          clean: true
+          clean_exclude: .obsidian
