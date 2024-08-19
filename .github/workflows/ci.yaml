@@ -71,18 +71,17 @@ jobs:
           git_commit_sha: ${{ github.sha }}
           git_tag_prefix: "v"
 
-  # 将./public目录下的文件推送到gh-pages分支,忽略 .obsidian 子仓库
   deploy:
     if: ${{ github.repository == 'fourteendp/quartz' && github.ref == 'refs/heads/v4' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
+      # 忽略子模块
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          submodules: 'recursive'
-          token: ${{ secrets.GITHUB_TOKEN }}
+          submodules: 'none'
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
