@@ -70,3 +70,20 @@ jobs:
           version: ${{ env.PACKAGE_VERSION }}
           git_commit_sha: ${{ github.sha }}
           git_tag_prefix: "v"
+
+  deploy:
+    if: ${{ github.repository == 'fourteendp/quartz' && github.ref == 'refs/heads/v4' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          cname: db.fourteen.top
