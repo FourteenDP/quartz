@@ -47,6 +47,13 @@ jobs:
       - name: Ensure Quartz builds, check bundle info
         run: npx quartz build --bundleInfo
 
+      - name: 将构建的文件发布到 gh-pages 分支
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+
   publish-tag:
     if: ${{ github.repository == 'fourteendp/quartz' && github.ref == 'refs/heads/v4' }}
     runs-on: ubuntu-latest
@@ -70,34 +77,3 @@ jobs:
           version: ${{ env.PACKAGE_VERSION }}
           git_commit_sha: ${{ github.sha }}
           git_tag_prefix: "v"
-
-  deploy:
-    if: ${{ github.repository == 'fourteendp/quartz' && github.ref == 'refs/heads/v4' }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      # 忽略子模块
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          submodules: 'none'
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Get package version
-        run: node -p -e '`PACKAGE_VERSION=${require("./package.json").version}`' >> $GITHUB_ENV
-      - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-          publish_branch: gh-pages
-          keep_files: true
-          user_name: ${{ github.actor }}
-          user_email: ${{ github.actor }}@users.noreply.github.com
-          commit_message: ${{ env.PACKAGE_VERSION }}
-          allow_empty_commit: true
-          clean: true
-          clean_exclude: .obsidian
