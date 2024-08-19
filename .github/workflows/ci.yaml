@@ -85,7 +85,7 @@ jobs:
         with:
           node-version: 20
       - name: Build
-        run: npm run build
+        run: npm run quartz build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
